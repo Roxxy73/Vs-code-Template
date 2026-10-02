@@ -70,7 +70,7 @@ href="https://unpkg.com/@vscode/codicons/dist/codicon.css">
         </div>
       </div>
 
-      <div class="main">
+      <div class="main" id="welcome-panel">
         <!-- Left Section -->
         <div class="left">
           <h1>Visual Studio Code</h1>
@@ -78,7 +78,7 @@ href="https://unpkg.com/@vscode/codicons/dist/codicon.css">
 
           <h3>Start</h3>
           <ul>
-            <li><i class="fa-regular fa-file"></i> New File...</li>
+            <li id="new-file-item" class="new-file-trigger"><i class="fa-regular fa-file"></i> New File...</li>
             <li><i class="fa-regular fa-folder-open"></i> Open...</li>
             <li><i class="fa-solid fa-code-branch"></i> Clone Git Repository...</li>
             <li><i class="fa-solid fa-arrow-right-arrow-left"></i> Connect to...</li>
@@ -143,6 +143,58 @@ href="https://unpkg.com/@vscode/codicons/dist/codicon.css">
         <label for="startup">Show welcome page on startup</label>
       </div>
     </div>
+
+    <div id="editor-panel" class="editor-panel hidden">
+      <div class="editor-header">
+        <div class="editor-tab-title">untitled-new-file</div>
+        <div class="editor-actions">
+          <span>—</span>
+          <span>□</span>
+          <span>✕</span>
+        </div>
+      </div>
+      <div class="editor-toolbar">
+        <span>File</span>
+        <span>Edit</span>
+        <span>Selection</span>
+        <span>View</span>
+      </div>
+      <textarea id="code-editor" spellcheck="false" aria-label="Code editor"></textarea>
+    </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const welcomePanel = document.getElementById('welcome-panel');
+      const editorPanel = document.getElementById('editor-panel');
+      const codeEditor = document.getElementById('code-editor');
+      const newFileItem = document.getElementById('new-file-item');
+
+      const activateGroup = (selector) => {
+        const items = document.querySelectorAll(selector);
+        items.forEach((item) => {
+          item.addEventListener('click', () => {
+            items.forEach((el) => el.classList.remove('active'));
+            item.classList.add('active');
+          });
+        });
+      };
+
+      const openNewFile = () => {
+        welcomePanel.classList.add('hidden');
+        editorPanel.classList.remove('hidden');
+        setTimeout(() => codeEditor.focus(), 50);
+      };
+
+      newFileItem.addEventListener('click', openNewFile);
+
+      activateGroup('.menu-item');
+      activateGroup('.icon');
+      activateGroup('.tab');
+      activateGroup('.left li');
+      activateGroup('.recent li');
+      activateGroup('.card');
+    });
+  </script>
 </body>
 </html>
